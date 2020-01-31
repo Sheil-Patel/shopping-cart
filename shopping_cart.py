@@ -28,4 +28,11 @@ products = [
 print(products)
 # pprint(products)
 
-# TODO: write some Python code here to produce the desired output
+while True:
+    id_number = input()
+    list.append([id_number])
+    if id_number == "DONE":
+        break
+
+for p in id_number:
+    print(id_number)
