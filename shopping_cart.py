@@ -27,21 +27,32 @@ products = [
 def to_usd(my_price):
     return f"${my_price:,.2f}" #> $12,000.71
 
-print(products)
-# pprint(products)
+#print(products)
+
 
 #INFO CAPTURE / INPUT
 total_price = 0
+selected_ids = []
+
 while True:
     selected_id = input("Please input a product identifier: ") #> stored as string
     if selected_id == "DONE":
         break
     else:
-        matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
-        matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
-        total_price = total_price + matching_product["price"]
-        print("SELECTED PRODUCT: " + matching_product["name"] + " " + str(to_usd(matching_product["price"]))) #> 
-        
+        #matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
+        #matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
+        #total_price = total_price + matching_product["price"]
+        #print("SELECTED PRODUCT: " + matching_product["name"] + " " + str(to_usd(matching_product["price"]))) #> 
+        selected_ids.append(selected_id)
+
+for selected_id in selected_ids:
+    matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
+    matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
+    total_price = total_price + matching_product["price"]
+    print("SELECTED PRODUCT: " + matching_product["name"] + " " + str(to_usd(matching_product["price"]))) #> 
+
+
+
 #Info Display / Output
 print("TOTAL PRICE:" + str(to_usd(total_price)))
 
