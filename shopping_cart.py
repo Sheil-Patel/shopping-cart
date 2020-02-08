@@ -2,6 +2,9 @@
 
 #from pprint import pprint
 
+from datetime import date
+from datetime import datetime
+
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -27,11 +30,13 @@ products = [
 def to_usd(my_price):
     return f"${my_price:,.2f}" #> $12,000.71
 
+
+
 #print(products)
 
 
 #INFO CAPTURE / INPUT
-total_price = 0
+subtotal = 0
 selected_ids = []
 
 while True:
@@ -39,32 +44,50 @@ while True:
     if selected_id == "DONE":
         break
     else:
-        #matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
-        #matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
-        #total_price = total_price + matching_product["price"]
-        #print("SELECTED PRODUCT: " + matching_product["name"] + " " + str(to_usd(matching_product["price"]))) #> 
         selected_ids.append(selected_id)
 
-for selected_id in selected_ids:
-    matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
-    matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
-    total_price = total_price + matching_product["price"]
-    print("SELECTED PRODUCT: " + matching_product["name"] + " " + str(to_usd(matching_product["price"]))) #> 
+
+
+
+#for selected_id in selected_ids:
+#    matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
+#    matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
+#    subtotal = subtotal + matching_product["price"]
+#    print("SELECTED PRODUCT: " + matching_product["name"] + " " + str(to_usd(matching_product["price"]))) #> 
 
 
 
 #Info Display / Output
-print("TOTAL PRICE:" + str(to_usd(total_price)))
+today = date.today()
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+d3 = today.strftime("%m/%d/%y")
+taxrate = .0875
+print("-------------------------------------------")
+print("Kroger Grocery Store")
+print("1-215-677-0952")
+print("www.Kroger.com")
+print("-------------------------------------------")
+print("Checkout On: " + d3 + " at " + current_time)
+print("-------------------------------------------")
+print("SELECTED PRODUCTS:")
 
+for selected_id in selected_ids:
+    matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
+    matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
+    subtotal = subtotal + matching_product["price"]
+    print(" . . . " + matching_product["name"] + " " +"(" +str(to_usd(matching_product["price"]))+ ")") #> 
 
+print("SUBTOTAL:" + str(to_usd(subtotal)))
 
+tax_amount = taxrate * subtotal
 
-#while True:
-#    id_number = input()
-#    list.append([id_number])
-#    if id_number == "DONE":
-#        break
-#
-#for p in id_number:
-#    print(id_number)
+print("TAX: " + str(to_usd(tax_amount)))
+
+final_total = subtotal - tax_amount
+
+print("TOTAL: " + str(to_usd(final_total)))
+print("-------------------------------------------")
+print("THANKS, SEE YOU AGAIN SOON!")
+print("-------------------------------------------")
 
