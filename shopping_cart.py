@@ -24,9 +24,23 @@ products = [
     {"id":19, "name": "Gluten Free Quinoa Three Cheese & Mushroom Blend", "department": "dry goods pasta", "aisle": "grains rice dried goods", "price": 3.99},
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
+def to_usd(my_price):
+    return f"${my_price:,.2f}" #> $12,000.71
 
 print(products)
 # pprint(products)
+
+#INFO CAPTURE / INPUT
+selected_id = input("Please input a product identifier: ")
+print(selected_id)
+print(type(selected_id))
+
+
+#INFO DISPLAY/OUTPUT
+
+
+
+
 
 while True:
     id_number = input()
