@@ -40,9 +40,16 @@ subtotal = 0
 selected_ids = []
 
 while True:
+    hello = False
     selected_id = input("Please input a product identifier: ") #> stored as string
-    if selected_id == "DONE":
+    if selected_id == "DONE" or selected_id == "done":
         break
+    else:
+        for p in products:
+            if str(p["id"]) == str(selected_id):
+                hello = True
+    if hello == False:
+        print("Hey, are you sure that product identifier is correct? Please try again!")        
     else:
         selected_ids.append(selected_id)
 
@@ -73,7 +80,7 @@ print("-------------------------------------------")
 print("SELECTED PRODUCTS:")
 
 for selected_id in selected_ids:
-    matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
+    matching_products = [p for p in products if str(p["id"]) == str(selected_id)] #> Filters through list to check for matching product ID
     matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
     subtotal = subtotal + matching_product["price"]
     print(" . . . " + matching_product["name"] + " " +"(" +str(to_usd(matching_product["price"]))+ ")") #> 
