@@ -63,7 +63,7 @@ while True:
         break
     else:
         for p in products:
-            if p["id"] == int(selected_id):
+            if str(p["id"]) == selected_id:
                 hello = True
     if hello == False:
         print("Hey, are you sure that product identifier is correct? Please try again!")        
@@ -101,7 +101,7 @@ for selected_id in selected_ids:
     matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
     subtotal = subtotal + matching_product["price"]
     print(" . . . " + matching_product["name"] + " " +"(" +str(to_usd(matching_product["price"]))+ ")") #> 
-
+print("-------------------------------------------")
 print("SUBTOTAL:" + str(to_usd(subtotal)))
 
 tax_amount = taxrate * subtotal
