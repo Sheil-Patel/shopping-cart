@@ -6,6 +6,12 @@ from datetime import date
 from datetime import datetime
 import csv
 
+###Email Receipt
+
+import os
+
+
+
 #products = [
 #    {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
 #    {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -50,10 +56,22 @@ def to_usd(my_price):
     return f"${my_price:,.2f}" #> $12,000.71
 
 
+#
+#print("HTML:", html_content)
+#
+formatted_products = []
+for p in products:
+    formatted_product = p
+    if not isinstance(formatted_product["price"], str): # weird that this is necessary, only when there are duplicative selections, like 1,1 or 1,2,1 or 3,2,1,2 because when looping through and modifying a previous identical dict, it appears Python treats the next identical dict as the same object that we updated, so treating it as a copy of the first rather than its own unique object in its own right.
+        formatted_product["price"] = p["price"]
+    formatted_products.append(formatted_product)
+
+
+  
 
 
 #INFO CAPTURE / INPUT
-subtotal = 0
+subtotal = 0.0
 selected_ids = []
 
 while True:
@@ -108,10 +126,9 @@ tax_amount = taxrate * subtotal
 
 print("TAX: " + str(to_usd(tax_amount)))
 
-final_total = subtotal - tax_amount
+final_total = subtotal + tax_amount
 
 print("TOTAL: " + str(to_usd(final_total)))
 print("-------------------------------------------")
 print("THANKS, SEE YOU AGAIN SOON!")
 print("-------------------------------------------")
-
