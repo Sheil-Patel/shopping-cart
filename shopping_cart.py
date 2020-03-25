@@ -40,6 +40,44 @@ import os
 def to_usd(my_price):
         return f"${my_price:,.2f}" #> $12,000.71
         
+def output_receipt_header(d3, current_time):
+    print("-------------------------------------------")
+    print("Kroger Grocery Store")
+    print("1-215-677-0952")
+    print("www.Kroger.com")
+    print("-------------------------------------------")
+    print("Checkout On: " + d3 + " at " + current_time)
+    print("-------------------------------------------")
+    print("SELECTED PRODUCTS:")
+
+
+
+
+def output_receipt_footer(selected_ids, products):
+    subtotal = 0.0
+    taxrate = .0875
+    for selected_id in selected_ids:
+        matching_products = [p for p in products if str(p["id"]) == str(selected_id)] #> Filters through list to check for matching product ID
+        matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
+        subtotal = subtotal + matching_product["price"]
+        print(" . . . " + matching_product["name"] + " " +"(" +str(to_usd(matching_product["price"]))+ ")") #> 
+    
+    print("-------------------------------------------")
+    print("SUBTOTAL:" + str(to_usd(subtotal)))
+
+    tax_amount = taxrate * subtotal
+
+    print("TAX: " + str(to_usd(tax_amount)))
+
+    final_total = subtotal + tax_amount
+
+    print("TOTAL: " + str(to_usd(final_total)))
+    print("-------------------------------------------")
+    print("THANKS, SEE YOU AGAIN SOON!")
+    print("-------------------------------------------")
+    test_subtotal = to_usd(subtotal)
+    return test_subtotal
+    
 import pandas as pd
 products = []
 
@@ -73,7 +111,6 @@ if __name__ == "__main__":
 
 
     #INFO CAPTURE / INPUT
-    subtotal = 0.0
     selected_ids = []
 
     while True:
@@ -93,44 +130,16 @@ if __name__ == "__main__":
 
 
 
-    #for selected_id in selected_ids:
-    #    matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
-    #    matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
-    #    subtotal = subtotal + matching_product["price"]
-    #    print("SELECTED PRODUCT: " + matching_product["name"] + " " + str(to_usd(matching_product["price"]))) #> 
-
-
-
-    #Info Display / Output
+    #Info Display / Output Header
     today = date.today()
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     d3 = today.strftime("%m/%d/%y")
-    taxrate = .0875
-    print("-------------------------------------------")
-    print("Kroger Grocery Store")
-    print("1-215-677-0952")
-    print("www.Kroger.com")
-    print("-------------------------------------------")
-    print("Checkout On: " + d3 + " at " + current_time)
-    print("-------------------------------------------")
-    print("SELECTED PRODUCTS:")
+    
 
-    for selected_id in selected_ids:
-        matching_products = [p for p in products if str(p["id"]) == str(selected_id)] #> Filters through list to check for matching product ID
-        matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
-        subtotal = subtotal + matching_product["price"]
-        print(" . . . " + matching_product["name"] + " " +"(" +str(to_usd(matching_product["price"]))+ ")") #> 
-    print("-------------------------------------------")
-    print("SUBTOTAL:" + str(to_usd(subtotal)))
+    output_receipt_header(d3,current_time) #Receipt Header Function
 
-    tax_amount = taxrate * subtotal
+    output_receipt_footer(selected_ids, products)
+    print(selected_ids)
 
-    print("TAX: " + str(to_usd(tax_amount)))
 
-    final_total = subtotal + tax_amount
-
-    print("TOTAL: " + str(to_usd(final_total)))
-    print("-------------------------------------------")
-    print("THANKS, SEE YOU AGAIN SOON!")
-    print("-------------------------------------------")
