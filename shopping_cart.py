@@ -37,98 +37,100 @@ import os
 # shopping_cart.py
 
 #from pprint import pprint
+def to_usd(my_price):
+        return f"${my_price:,.2f}" #> $12,000.71
+        
 import pandas as pd
 products = []
 
-
-stats = pd.read_csv("Data/products.csv")
-for index, row in stats.iterrows():
-    p={}
-    p["id"] = row["id"]
-    p["name"] = row["name"]
-    p["department"] = row["department"]
-    p["aisle"] = row["aisle"]
-    p["price"] = float(row["price"])
-    products.append(p)
-
-
-def to_usd(my_price):
-    return f"${my_price:,.2f}" #> $12,000.71
+if __name__ == "__main__":
+    stats = pd.read_csv("Data/products.csv")
+    for index, row in stats.iterrows():
+        p={}
+        p["id"] = row["id"]
+        p["name"] = row["name"]
+        p["department"] = row["department"]
+        p["aisle"] = row["aisle"]
+        p["price"] = float(row["price"])
+        products.append(p)
 
 
-#
-#print("HTML:", html_content)
-#
-formatted_products = []
-for p in products:
-    formatted_product = p
-    if not isinstance(formatted_product["price"], str): # weird that this is necessary, only when there are duplicative selections, like 1,1 or 1,2,1 or 3,2,1,2 because when looping through and modifying a previous identical dict, it appears Python treats the next identical dict as the same object that we updated, so treating it as a copy of the first rather than its own unique object in its own right.
-        formatted_product["price"] = p["price"]
-    formatted_products.append(formatted_product)
+    
 
 
-  
+    #
+    #print("HTML:", html_content)
+    #
+    formatted_products = []
+    for p in products:
+        formatted_product = p
+        if not isinstance(formatted_product["price"], str): # weird that this is necessary, only when there are duplicative selections, like 1,1 or 1,2,1 or 3,2,1,2 because when looping through and modifying a previous identical dict, it appears Python treats the next identical dict as the same object that we updated, so treating it as a copy of the first rather than its own unique object in its own right.
+            formatted_product["price"] = p["price"]
+        formatted_products.append(formatted_product)
 
 
-#INFO CAPTURE / INPUT
-subtotal = 0.0
-selected_ids = []
+    
 
-while True:
-    hello = False
-    selected_id = input("Please input a product identifier: ") #> stored as string
-    if selected_id == "DONE" or selected_id == "done":
-        break
-    else:
-        for p in products:
-            if str(p["id"]) == selected_id:
-                hello = True
-    if hello == False:
-        print("Hey, are you sure that product identifier is correct? Please try again!")        
-    else:
-        selected_ids.append(selected_id)
 
+    #INFO CAPTURE / INPUT
+    subtotal = 0.0
+    selected_ids = []
+
+    while True:
+        hello = False
+        selected_id = input("Please input a product identifier: ") #> stored as string
+        if selected_id == "DONE" or selected_id == "done":
+            break
+        else:
+            for p in products:
+                if str(p["id"]) == selected_id:
+                    hello = True
+        if hello == False:
+            print("Hey, are you sure that product identifier is correct? Please try again!")        
+        else:
+            selected_ids.append(selected_id)
 
 
 
-#for selected_id in selected_ids:
-#    matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
-#    matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
-#    subtotal = subtotal + matching_product["price"]
-#    print("SELECTED PRODUCT: " + matching_product["name"] + " " + str(to_usd(matching_product["price"]))) #> 
+
+    #for selected_id in selected_ids:
+    #    matching_products = [p for p in products if p["id"] == int(selected_id)] #> Filters through list to check for matching product ID
+    #    matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
+    #    subtotal = subtotal + matching_product["price"]
+    #    print("SELECTED PRODUCT: " + matching_product["name"] + " " + str(to_usd(matching_product["price"]))) #> 
 
 
 
-#Info Display / Output
-today = date.today()
-now = datetime.now()
-current_time = now.strftime("%H:%M:%S")
-d3 = today.strftime("%m/%d/%y")
-taxrate = .0875
-print("-------------------------------------------")
-print("Kroger Grocery Store")
-print("1-215-677-0952")
-print("www.Kroger.com")
-print("-------------------------------------------")
-print("Checkout On: " + d3 + " at " + current_time)
-print("-------------------------------------------")
-print("SELECTED PRODUCTS:")
+    #Info Display / Output
+    today = date.today()
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    d3 = today.strftime("%m/%d/%y")
+    taxrate = .0875
+    print("-------------------------------------------")
+    print("Kroger Grocery Store")
+    print("1-215-677-0952")
+    print("www.Kroger.com")
+    print("-------------------------------------------")
+    print("Checkout On: " + d3 + " at " + current_time)
+    print("-------------------------------------------")
+    print("SELECTED PRODUCTS:")
 
-for selected_id in selected_ids:
-    matching_products = [p for p in products if str(p["id"]) == str(selected_id)] #> Filters through list to check for matching product ID
-    matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
-    subtotal = subtotal + matching_product["price"]
-    print(" . . . " + matching_product["name"] + " " +"(" +str(to_usd(matching_product["price"]))+ ")") #> 
-print("-------------------------------------------")
-print("SUBTOTAL:" + str(to_usd(subtotal)))
+    for selected_id in selected_ids:
+        matching_products = [p for p in products if str(p["id"]) == str(selected_id)] #> Filters through list to check for matching product ID
+        matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
+        subtotal = subtotal + matching_product["price"]
+        print(" . . . " + matching_product["name"] + " " +"(" +str(to_usd(matching_product["price"]))+ ")") #> 
+    print("-------------------------------------------")
+    print("SUBTOTAL:" + str(to_usd(subtotal)))
 
-tax_amount = taxrate * subtotal
+    tax_amount = taxrate * subtotal
 
-print("TAX: " + str(to_usd(tax_amount)))
+    print("TAX: " + str(to_usd(tax_amount)))
 
-final_total = subtotal + tax_amount
+    final_total = subtotal + tax_amount
 
-print("TOTAL: " + str(to_usd(final_total)))
-print("-------------------------------------------")
-print("THANKS, SEE YOU AGAIN SOON!")
-print("-------------------------------------------")
+    print("TOTAL: " + str(to_usd(final_total)))
+    print("-------------------------------------------")
+    print("THANKS, SEE YOU AGAIN SOON!")
+    print("-------------------------------------------")
