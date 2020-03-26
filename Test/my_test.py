@@ -50,22 +50,31 @@ def test_find_product():
         find_product([2222], products)
 
 def test_find_subtotal():
-    assert 0 == 0
+    products = [
+        {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
+        {"id":3, "name": "Robust Golden Unsweetened Oolong Tea", "department": "beverages", "aisle": "tea", "price": 2.49},
+        {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
+    ]
+    subtotal = find_subtotal([1,3,2], products)
+    correct_total = 3.50 + 2.49 + 4.99
+    assert subtotal == correct_total #Determines if subtotal is correct based off selected products
 
 def test_tax_calculation():
     taxrate = .0875
     amount = 8.92
     result = tax_calculation(amount)
     correct = amount * taxrate
-    assert result == correct
+    assert result == correct #Determines if tax calculation is correct
 
 def test_human_friendly_timestamp():
-    assert 0 == 0
+    correct = "Checkout on 03/26/20 at 18:14:58"
+    result = human_friendly_timestamp()
+    assert result == correct #Determines if the timestamp is in a correct string format
 
 def test_final_total_function():
     subtotal = 3.00
     tax_amount = 2.10
     correct = subtotal + tax_amount
     result = final_total_function(subtotal, tax_amount)
-    assert result == correct
+    assert result == correct #Determines if final total calculation is correct
 

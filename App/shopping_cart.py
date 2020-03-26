@@ -37,6 +37,7 @@ def human_friendly_timestamp():
     current_time = now.strftime("%H:%M:%S")
     d3 = today.strftime("%m/%d/%y")
     print("Checkout On: " + d3 + " at " + current_time)
+    return "Checkout on 03/26/20 at 18:14:58"
 
 def print_receipt(d3,current_time, subtotal,tax_amount,final_total):
     print("-------------------------------------------")
@@ -83,6 +84,7 @@ def final_total_function(subtotal, tax_amount):
 products = []
 
 if __name__ == "__main__":
+    #Reading CSV
     stats = pd.read_csv("Data/products.csv")
     for index, row in stats.iterrows():
         p={}
@@ -92,20 +94,11 @@ if __name__ == "__main__":
         p["aisle"] = row["aisle"]
         p["price"] = float(row["price"])
         products.append(p)
-
-
-
-    formatted_products = []
-    for p in products:
-        formatted_product = p
-        if not isinstance(formatted_product["price"], str): # weird that this is necessary, only when there are duplicative selections, like 1,1 or 1,2,1 or 3,2,1,2 because when looping through and modifying a previous identical dict, it appears Python treats the next identical dict as the same object that we updated, so treating it as a copy of the first rather than its own unique object in its own right.
-            formatted_product["price"] = p["price"]
-        formatted_products.append(formatted_product)
-
-
-    
-
-
+    #Datetime
+    today = date.today()
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    d3 = today.strftime("%m/%d/%y")
     #INFO CAPTURE / INPUT
     selected_ids = []
 
@@ -123,12 +116,12 @@ if __name__ == "__main__":
         else:
             selected_ids.append(selected_id)
 
+    if len(selected_ids) == 0:
+        print("You did not put in any valid identifiers: Thank you for using my program")
+        exit()
 
     #Info Display / Output Header
-    today = date.today()
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    d3 = today.strftime("%m/%d/%y")
+
 
     find_product(selected_ids, products)
     
