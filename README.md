@@ -1,8 +1,8 @@
 # shopping-cart
 
-## Install these packages
+## Install packages
 
-Pandas Package
+
 ```sh
-pip install pandas
+pip install requirements
 ```
