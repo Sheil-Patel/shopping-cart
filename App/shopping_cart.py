@@ -1,16 +1,10 @@
 # shopping_cart.py
 
-#from pprint import pprint
-
 from datetime import date
 from datetime import datetime
 import csv
-
-###Email Receipt
-
 import os
-
-
+import pandas as pd
 
 #products = [
 #    {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -34,13 +28,17 @@ import os
 #    {"id":19, "name": "Gluten Free Quinoa Three Cheese & Mushroom Blend", "department": "dry goods pasta", "aisle": "grains rice dried goods", "price": 3.99},
 #    {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}]
 
-# shopping_cart.py
-
-#from pprint import pprint
 def to_usd(my_price):
         return f"${my_price:,.2f}" #> $12,000.71
         
-def output_receipt_header(d3, current_time):
+def human_friendly_timestamp():
+    today = date.today()
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    d3 = today.strftime("%m/%d/%y")
+    print("Checkout On: " + d3 + " at " + current_time)
+
+def print_receipt(d3,current_time, subtotal,tax_amount,final_total):
     print("-------------------------------------------")
     print("Kroger Grocery Store")
     print("1-215-677-0952")
@@ -49,36 +47,39 @@ def output_receipt_header(d3, current_time):
     print("Checkout On: " + d3 + " at " + current_time)
     print("-------------------------------------------")
     print("SELECTED PRODUCTS:")
-
-
-
-
-def output_receipt_footer(selected_ids, products):
-    subtotal = 0.0
-    taxrate = .0875
-    for selected_id in selected_ids:
-        matching_products = [p for p in products if str(p["id"]) == str(selected_id)] #> Filters through list to check for matching product ID
-        matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
-        subtotal = subtotal + matching_product["price"]
-        print(" . . . " + matching_product["name"] + " " +"(" +str(to_usd(matching_product["price"]))+ ")") #> 
-    
     print("-------------------------------------------")
     print("SUBTOTAL:" + str(to_usd(subtotal)))
-
-    tax_amount = taxrate * subtotal
-
     print("TAX: " + str(to_usd(tax_amount)))
-
-    final_total = subtotal + tax_amount
-
     print("TOTAL: " + str(to_usd(final_total)))
     print("-------------------------------------------")
     print("THANKS, SEE YOU AGAIN SOON!")
     print("-------------------------------------------")
-    test_subtotal = to_usd(subtotal)
-    return test_subtotal
-    
-import pandas as pd
+
+def find_subtotal(selected_ids, products):
+    subtotal = 0.0
+    for selected_id in selected_ids:
+        matching_products = [p for p in products if str(p["id"]) == str(selected_id)] #> Filters through list to check for matching product ID
+        matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
+        subtotal = subtotal + matching_product["price"]
+    return subtotal
+
+def find_product(selected_ids, products):
+    for selected_id in selected_ids:
+        matching_products = [p for p in products if str(p["id"]) == str(selected_id)] #> Filters through list to check for matching product ID
+        matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
+        print(" . . . " + matching_product["name"] + " " +"(" +str(to_usd(matching_product["price"]))+ ")") #> 
+    return matching_product
+
+def tax_calculation(subtotal):
+    taxrate = .0875
+    tax_amount = taxrate * subtotal
+    return tax_amount
+
+def final_total_function(subtotal, tax_amount):
+    final_total = subtotal + tax_amount
+    return final_total
+  
+
 products = []
 
 if __name__ == "__main__":
@@ -93,12 +94,7 @@ if __name__ == "__main__":
         products.append(p)
 
 
-    
 
-
-    #
-    #print("HTML:", html_content)
-    #
     formatted_products = []
     for p in products:
         formatted_product = p
@@ -128,18 +124,18 @@ if __name__ == "__main__":
             selected_ids.append(selected_id)
 
 
-
-
     #Info Display / Output Header
     today = date.today()
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     d3 = today.strftime("%m/%d/%y")
+
+    find_product(selected_ids, products)
     
+    subtotal = find_subtotal(selected_ids, products)
 
-    output_receipt_header(d3,current_time) #Receipt Header Function
+    tax_amount = tax_calculation(subtotal)
 
-    output_receipt_footer(selected_ids, products)
-    print(selected_ids)
+    final_total = final_total_function(subtotal, tax_amount)
 
-
+    print_receipt(d3, current_time ,subtotal,tax_amount,final_total)
