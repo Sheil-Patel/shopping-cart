@@ -1,4 +1,4 @@
-from shopping_cart import output_receipt_footer, to_usd
+from App.shopping_cart import output_receipt_footer, to_usd
 
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
