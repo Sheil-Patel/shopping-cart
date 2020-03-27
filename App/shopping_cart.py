@@ -1,6 +1,5 @@
 # shopping_cart.py
 
-from datetime import date
 from datetime import datetime
 import csv
 import os
@@ -31,21 +30,20 @@ import pandas as pd
 def to_usd(my_price):
         return f"${my_price:,.2f}" #> $12,000.71
         
-def human_friendly_timestamp():
-    today = date.today()
-    now = datetime.now()
+def human_friendly_timestamp(now):
     current_time = now.strftime("%H:%M:%S")
-    d3 = today.strftime("%m/%d/%y")
-    print("Checkout On: " + d3 + " at " + current_time)
-    return "Checkout on 03/26/20 at 18:14:58"
+    d3 = now.strftime("%m/%d/%y")
+    output = f"Checkout On: {d3} at {current_time}"
+    print(output)
+    return output
 
-def print_receipt(d3,current_time, subtotal,tax_amount,final_total):
+def print_receipt(time, subtotal,tax_amount,final_total):
     print("-------------------------------------------")
     print("Kroger Grocery Store")
     print("1-215-677-0952")
     print("www.Kroger.com")
     print("-------------------------------------------")
-    print("Checkout On: " + d3 + " at " + current_time)
+    print(time)
     print("-------------------------------------------")
     print("SELECTED PRODUCTS:")
     print("-------------------------------------------")
@@ -94,11 +92,6 @@ if __name__ == "__main__":
         p["aisle"] = row["aisle"]
         p["price"] = float(row["price"])
         products.append(p)
-    #Datetime
-    today = date.today()
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    d3 = today.strftime("%m/%d/%y")
     #INFO CAPTURE / INPUT
     selected_ids = []
 
@@ -119,9 +112,13 @@ if __name__ == "__main__":
     if len(selected_ids) == 0:
         print("You did not put in any valid identifiers: Thank you for using my program")
         exit()
+    #Pulling Datetime 
+    now = datetime.now()
+
 
     #Info Display / Output Header
 
+    time = human_friendly_timestamp(now)
 
     find_product(selected_ids, products)
     
@@ -131,4 +128,4 @@ if __name__ == "__main__":
 
     final_total = final_total_function(subtotal, tax_amount)
 
-    print_receipt(d3, current_time ,subtotal,tax_amount,final_total)
+    print_receipt(time ,subtotal,tax_amount,final_total)

@@ -1,5 +1,6 @@
 import pytest
 from App.shopping_cart import find_product, find_subtotal, to_usd, tax_calculation, human_friendly_timestamp, final_total_function
+from datetime import datetime
 
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -67,8 +68,9 @@ def test_tax_calculation():
     assert result == correct #Determines if tax calculation is correct
 
 def test_human_friendly_timestamp():
-    correct = "Checkout on 03/26/20 at 18:14:58"
-    result = human_friendly_timestamp()
+    now = datetime(2020, 3,26,18,14,58)
+    correct = "Checkout On: 03/26/20 at 18:14:58"
+    result = human_friendly_timestamp(now)
     assert result == correct #Determines if the timestamp is in a correct string format
 
 def test_final_total_function():
