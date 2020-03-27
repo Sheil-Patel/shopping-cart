@@ -1,4 +1,4 @@
-# Shopping-cart Project 
+# Shopping-Cart Project 
 Hello Welcome to my shopping-cart project. In this program, you will input a product identifiers(1-20) corresponding to a certain grocery item. Once you input your identifiers, enter "done"(case does not matter) to print out an itemized receipt with a subtotal, tax, and final total.
 
 ## Prerequisites
