@@ -28,9 +28,31 @@ import pandas as pd
 #    {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}]
 
 def to_usd(my_price):
-        return f"${my_price:,.2f}" #> $12,000.71
+    """
+    Takes a float or int and converts it into a string showing a proper numerical dollar amount.
+
+    Params:
+        my_price (numeric, like int or float) the number will be converted to USD format
+
+    Examples:
+        to_usd(4.50) == "$4.50" #Adds the Dollaer
+        to_usd(4.5) == "$4.50" #Has two decimal places
+        to_usd(4.5555555) == "$4.56" #should round to two decimal places
+        to_usd(123456789.5555) == "$123,456,789.56" # should display thousand separators
+    """
+    return f"${my_price:,.2f}" #> $12,000.71
         
 def human_friendly_timestamp(now):
+    """
+    Takes a datetime object and formats that date and time into a human friendly timestamp
+
+    Params:
+        now (datetime object) information will be taken from this and be used to print a timestamp
+
+    Examples:
+        now = datetime(2020, 3,26,18,14,58)
+        human_friendly_timestamp(now) ==  "Checkout On: 03/26/20 at 18:14:58"
+    """
     current_time = now.strftime("%H:%M:%S")
     d3 = now.strftime("%m/%d/%y")
     output = f"Checkout On: {d3} at {current_time}"
@@ -38,6 +60,15 @@ def human_friendly_timestamp(now):
     return output
 
 def print_receipt(time, subtotal,tax_amount,final_total):
+    """
+    Takes information for the receipt and prints the receipt with the correct information
+
+    Params:
+        time (datetime object), subtotal (float object), tax_amount (float object), final_total (float object)
+
+    Examples:
+        print_receipt(time,subtotal,tax_amount, final_total)
+    """
     print("-------------------------------------------")
     print("Kroger Grocery Store")
     print("1-215-677-0952")
@@ -55,6 +86,16 @@ def print_receipt(time, subtotal,tax_amount,final_total):
     print("-------------------------------------------")
 
 def find_subtotal(selected_ids, products):
+    """
+    Takes a list object with selected_ids and another list object with all the products and sorts through and matches selected_ids with products 
+    and then returns the combined costs of those objects in a subtotal
+
+    Params:
+        selected_ids (list object) and products (list object)
+
+    Examples:
+        find_subtotal(selected_ids, products) #> returns float with subtotal
+    """
     subtotal = 0.0
     for selected_id in selected_ids:
         matching_products = [p for p in products if str(p["id"]) == str(selected_id)] #> Filters through list to check for matching product ID
@@ -63,6 +104,15 @@ def find_subtotal(selected_ids, products):
     return subtotal
 
 def find_product(selected_ids, products):
+    """
+    Takes a list object with selected_ids and another list object with all the products and sorts through and matches selected_ids with products and returns the matching product
+
+    Params:
+        selected_ids (list object) and products (list object) will be used to find and return a matching_product that is a dictionary
+
+    Examples:
+        find_product([2], products) #> Returns {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99}
+    """
     for selected_id in selected_ids:
         matching_products = [p for p in products if str(p["id"]) == str(selected_id)] #> Filters through list to check for matching product ID
         matching_product = matching_products[0] #> Changes list datatype to dictionary datatype
@@ -70,11 +120,29 @@ def find_product(selected_ids, products):
     return matching_product
 
 def tax_calculation(subtotal):
+    """
+    Takes a subtotal(float object) and uses it to calculate tax, which is at a rate of 8.75%
+
+    Params:
+        subtotal (float object)
+
+    Examples:
+        tax_calculation(subtotal) #> returns a float with the amount of tax due
+    """
     taxrate = .0875
     tax_amount = taxrate * subtotal
     return tax_amount
 
 def final_total_function(subtotal, tax_amount):
+    """
+    Takes the subtotal (float object) and tax_amount(float object) and uses them to calculate final cost 
+
+    Params:
+       subtotal (float object) and tax_amount (float object)
+
+    Examples:
+        final_total_function(subtotal, tax_amount) #> returns a float with the final amount due
+    """
     final_total = subtotal + tax_amount
     return final_total
   
