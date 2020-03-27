@@ -31,10 +31,6 @@ def test_to_usd():
     assert to_usd(123456789.5555) == "$123,456,789.56" # should display thousand separators
 
 
-    #assert determine_winner("rock","rock") == None
-    #assert determine_winner("rock" , "paper") == "paper"
-
-
 def test_find_product():
     products = [
         {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
